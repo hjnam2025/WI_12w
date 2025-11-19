@@ -418,12 +418,14 @@ body {
 }
 
 /* 이용가능 클러스터 */
-.marker-cluster-usable-small { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
-.marker-cluster-usable-small div { background-color: rgba(39, 174, 96, 0.9) !important; color: white !important; }
-.marker-cluster-usable-medium { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
-.marker-cluster-usable-medium div { background-color: rgba(76, 113, 92, 0.9) !important; color: white !important; }
-.marker-cluster-usable-large { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
-.marker-cluster-usable-large div { background-color: rgba(20, 90, 50, 0.9) !important; color: white !important; }
+.marker-cluster-usable-small { background-color: rgba(46, 204, 113, 0) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.4); border-radius: 50%; }
+.marker-cluster-usable-small div { background-color: rgba(44, 217, 116, 0.9) !important; color: white !important; }
+
+.marker-cluster-usable-medium { background-color: rgba(46, 204, 113, 0) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.4); border-radius: 50%; }
+.marker-cluster-usable-medium div { background-color: rgba(0, 167, 72, 0.9) !important; color: white !important; }
+
+.marker-cluster-usable-large { background-color: rgba(46, 204, 113, 0) !important; box-shadow: 0 0 0 5px rgba(44, 217, 116, 0.4); border-radius: 50%; }
+.marker-cluster-usable-large div { background-color: rgba(10, 61, 32, 0.9) !important; color: white !important; }
 
 /* 기본 클러스터 */
 .marker-cluster-small { background-color: rgba(79, 184, 254, 0) !important; box-shadow: 0 0 15px 5px rgba(101, 199, 255, 0.5); border-radius: 50%; }

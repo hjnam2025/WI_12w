@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무인도서 아카이브 지도</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+        <div id="searchPanel" class="floating-panel search-panel">
+            <div class="panel-header">
+                <h3>지역별 찾기</h3>
+                <button id="toggleSearchPanelBtn" class="close-btn" style="font-size: 1.2em;">◀</button>
+            </div>
+            
+            <div class="filter-buttons">
+                <button id="territorialToggleBtn" class="filter-btn territorial-btn" title="영해기점만 따로 보기">⚓ 영해기점</button>
+                <button id="usableToggleBtn" class="filter-btn usable-btn" title="이용가능 도서만 따로 보기">🏝️ 이용가능</button>
+                <button id="portToggleBtn" class="filter-btn port-btn" title="주요 항구 보기">🚢 항구</button>
+            </div>
+
+            <div class="select-wrapper">
+                <select id="regionSelect" class="region-select">
+                    <option value="">전체</option>
+                    <option value="경기도">경기•인천</option>
+                    <option value="강원도">강원특별자치도</option>
+                    <option value="충청도">충청도</option>
+                    <option value="전라북도">전북특별자치도</option>
+                    <option value="전라남도">전라남도</option>
+                    <option value="경상북도">경상북도</option>
+                    <option value="경상남도">경상남도</option>
+                    <option value="제주도">제주특별자치도</option>
+                </select>
+                <select id="sigunguSelect" class="region-select" style="display: none;">
+                    <option value="">전체</option>
+                </select>
+            </div>
+
+            <div class="island-list-wrapper">
+                <div class="island-list-header">
+                    <h4>섬 목록</h4>
+                    <button id="toggleIslandList" class="toggle-list-btn">접기 ▲</button>
+                </div>
+                <div id="islandList" class="island-list"></div>
+                <div id="islandListPagination" class="pagination-container"></div>
+            </div>
+        </div>
+
+        <div id="detailPanel" class="floating-panel detail-panel hidden">
+            <div class="panel-header">
+                <h3>상세 정보</h3>
+                <button id="closeDetailPanel" class="close-btn">×</button>
+            </div>
+            <div id="detailContainer" class="detail-container"></div> 
+        </div>
+
+        <div id="map" class="map-container">
+            <button id="openSearchPanelBtn" class="sidebar-toggle-btn hidden" title="검색창 열기">▶</button>
+        </div>
+
+        <div id="territorialListBox" class="territorial-list-box hidden" style="bottom: 20px; right: 280px;"> 
+            <div class="t-list-header">
+                <h4>⚓ 영해기점 목록</h4>
+                <button id="closeTerritorialList" class="close-btn-white">×</button>
+            </div>
+            <div id="territorialListContent" class="t-list-content"></div>
+            <div id="territorialPagination" class="pagination-container"></div>
+        </div>
+
+        <div id="viewportListBox" class="viewport-list-box hidden">
+            <div class="t-list-header" style="background-color: #2c3e50;">
+                <h4 id="viewportCount">현재 화면의 섬 (0)</h4>
+                <button id="closeViewportList" class="close-btn-white">×</button>
+            </div>
+            <div id="viewportListContent" class="t-list-content">
+                <p style="padding:10px; color:#999; font-size:0.8em;">지도를 확대하면 목록이 보입니다.</p>
+            </div>
+            <div id="viewportPagination" class="pagination-container"></div>
+        </div>
+
+        <div class="map-controls">
+            <div class="custom-zoom-controls">
+                <a id="custom-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in"></a>
+                <a id="custom-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out"></a>
+                <a id="custom-zoom-korea" href="#" title="전체 보기" role="button" aria-label="전체 보기"></a>
+            </div>
+            <h3>지도 스타일</h3>
+            <div class="style-buttons">
+                <button class="style-btn active" data-style="satellite">위성</button>
+                <button class="style-btn" data-style="default">일반</button>
+                <button class="style-btn" data-style="terrain">지형</button>
+                <button class="style-btn" data-style="dark">다크</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

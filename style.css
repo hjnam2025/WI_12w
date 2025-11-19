@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "GMarketSans";
+    font-weight: 300;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+@font-face {
+    font-family: 'GMarketSans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GMarketSans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GMarketSans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+}
+
+/* Map Container */
+.map-container {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* --- Floating Panel 공통 --- */
+.floating-panel {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+.floating-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-20px);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.panel-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #5380e9;
+    font-weight: 700;
+}
+
+/* 1. 검색 패널 (왼쪽 상단) */
+.search-panel {
+    top: 20px;
+    left: 20px;
+    width: 340px; 
+    max-height: 70vh;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.filter-btn {
+    flex: 1;
+    padding: 6px 5px;
+    font-family: "GMarketSans";
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #555;
+    white-space: nowrap;
+}
+.filter-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #3498db;
+}
+.territorial-btn.active {
+    background-color: #5380e9;
+    color: white;
+    border-color: #5380e9;
+    box-shadow: 0 2px 5px rgba(83, 128, 233, 0.3);
+}
+.usable-btn.active {
+    background-color: #27ae60;
+    color: white;
+    border-color: #27ae60;
+    box-shadow: 0 2px 5px rgba(39, 174, 96, 0.3);
+}
+/* 항구 버튼 활성 스타일 */
+.port-btn.active {
+    background-color: #555;
+    color: white;
+    border-color: #555;
+    box-shadow: 0 0px 5px rgba(255, 255, 255, 0.6);
+}
+
+.select-wrapper {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.region-select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: "GMarketSans";
+    font-size: 0.9em;
+    min-width: 0;
+}
+
+.island-list-wrapper {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.island-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.island-list-header h4 {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+.toggle-list-btn {
+    background: none;
+    border: none;
+    font-family: "GMarketSans";
+    font-size: 0.8em;
+    color: #888;
+    cursor: pointer;
+}
+
+/* ▼▼▼ 리스트 높이/스크롤 수정 (내용물에 맞게) ▼▼▼ */
+.island-list {
+    overflow-y: visible; 
+    height: auto;      
+    padding-right: 5px;
+}
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+.island-list-item {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.island-list-item:hover {
+    background-color: #eef4ff;
+}
+.island-list-item .island-name {
+    font-weight: 500; 
+    margin-bottom: 3px;
+    font-size: 1em;
+}
+.island-list-item .island-address {
+    font-size: 0.8em;
+    color: #888;
+}
+
+/* 페이지네이션 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
+}
+.page-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-family: "GMarketSans";
+    font-size: 0.8em;
+    color: #555;
+}
+.page-btn:hover { background-color: #f0f0f0; }
+.page-btn:disabled { color: #ccc; cursor: default; border-color: #eee; }
+.page-info { font-size: 0.8em; color: #666; }
+
+
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background-color: #5380e9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+.sidebar-toggle-btn:hover { background-color: #34495e; }
+.sidebar-toggle-btn.hidden { display: none; }
+
+
+/* 2. 상세 정보 패널 (왼쪽 하단) */
+.detail-panel {
+    bottom: 20px;
+    left: 20px;
+    width: 340px; 
+    max-height: 50vh; 
+    padding: 0; 
+    overflow: hidden;
+}
+.detail-panel .panel-header {
+    padding: 15px 15px 10px 15px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    background-color: white;
+    z-index: 20;
+}
+.detail-container {
+    overflow-y: auto;
+    flex: 1;
+    padding: 0 15px 15px 15px;
+    position: relative;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #888;
+    line-height: 1;
+    padding: 0 5px;
+}
+
+/* Sticky Header */
+.sticky-info-header {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.98);
+    z-index: 10;
+    padding: 0 15px 10px 15px;
+    border-bottom: 2px solid #eee;
+    margin: 0 -15px 10px -15px;
+}
+.sticky-info-header h3 {
+    color: #333;
+    margin: 0 0 10px 0;
+    font-size: 1.3em;
+    padding-top: 10px;
+}
+.travel-info-box {
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    border: 1px solid #c8e6c9;
+}
+.travel-info-box h4 {
+    margin: 0 0 5px 0;
+    color: #2e7d32;
+    font-size: 0.9em;
+}
+
+.info-row {
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+}
+.info-row.horizontal {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px;
+    justify-content: space-between;
+}
+.info-row.horizontal > div {
+    flex: 1;
+    text-align: center;
+}
+.info-label { font-weight: 500; color: #666; font-size: 0.85em; margin-bottom: 3px; }
+.info-value { color: #333; font-size: 0.95em; }
+
+
+/* 3. 리스트 박스들 (우측 하단) */
+.territorial-list-box, .viewport-list-box {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    max-height: 80vh; /* 박스가 화면 밖으로 나가지 않게 max-height 지정 */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    font-family: "GMarketSans";
+    overflow-y: auto; /* 내용이 max-height를 넘으면 스크롤 */
+}
+.territorial-list-box.hidden, .viewport-list-box.hidden { display: none; }
+.viewport-list-box { z-index: 1900; }
+
+.t-list-header {
+    padding: 10px 15px;
+    background-color: #5380e9;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px 8px 0 0;
+    flex-shrink: 0;
+}
+.t-list-header h4 { margin: 0; font-size: 0.9em; font-weight: 500; }
+.close-btn-white { background: none; border: none; color: white; font-size: 1.2em; cursor: pointer; }
+.t-list-content { 
+    padding: 5px 0; 
+    background: white;
+    height: auto; /* 내용물에 맞게 높이 자동 조절 */
+    overflow: visible; /* 스크롤바 제거 */
+}
+.t-list-item { padding: 8px 15px; cursor: pointer; border-bottom: 1px solid #eee; }
+.t-list-item:last-child { border-bottom: none; }
+.t-list-item:hover { background-color: #f0f8ff; }
+.t-name { font-size: 0.95em; font-weight: 500; color: #333; }
+.t-addr { font-size: 0.8em; color: #888; margin-top: 2px; }
+
+/* Map Controls */
+.map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 200px;
+}
+.custom-zoom-controls { display: flex; flex-direction: row; border: none; border-radius: 8px; overflow: hidden; background: white; margin-bottom: 10px; text-decoration-line: none; }
+.custom-zoom-controls a { font-weight: 500; background-color: white !important; color: #333 !important; width: 25px; height: 25px; line-height: 25px; text-align: center; display: block; cursor: pointer; }
+.custom-zoom-controls a:hover { background-color: #f0f0f0 !important; }
+#custom-zoom-korea { background-image: url("mini.svg"); background-repeat: no-repeat; width: 25px; background-size: contain; background-position: center; text-indent: -9999px; overflow: hidden; }
+#custom-zoom-in { background-image: url("exp.svg"); background-repeat: no-repeat; width: 25px; background-size: contain; background-position: center; text-indent: -9999px; overflow: hidden; }
+#custom-zoom-out { background-image: url("red.svg"); background-repeat: no-repeat; width: 25px; background-size: contain; background-position: center; text-indent: -9999px; overflow: hidden; }
+
+.map-controls h3 { margin: 0 0 10px 0; font-size: 1em; color: #5380e9; font-weight: 500; }
+.style-buttons { font-family: "GMarketSans"; display: flex; flex-direction: column; gap: 8px; }
+.style-btn { font-family: "GMarketSans"; padding: 8px 15px; border: 2px solid #ddd; background-color: white; border-radius: 30px; cursor: pointer; font-size: 0.9em; transition: all 0.2s; text-align: center; }
+.style-btn:hover { background-color: #f0f0f0; border-color: #3498db; }
+.style-btn.active { background-color: #5380e9; color: white; border-color: #5380e9; }
+
+/* Tooltip */
+.leaflet-tooltip { font-family: "GMarketSans"; background-color: rgba(255, 255, 255, 0.95); border: 1px solid #ccc; border-radius: 4px; padding: 8px; font-size: 0.85em; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); min-width: 150px; }
+.tooltip-title { font-weight: 500; color: #5380e9; margin-bottom: 5px; font-size: 1.1em; display: flex; justify-content: space-between; align-items: center; gap: 5px; }
+.territorial-badge { color: #00008B; font-size: 0.8em; font-weight: 300; margin-left: 10px; white-space: nowrap; }
+.usable-badge { color: #27ae60; font-size: 0.8em; font-weight: 300; margin-left: 10px; white-space: nowrap; }
+.tooltip-info { margin: 3px 0; color: #555; }
+.tooltip-info strong { color: #333; }
+
+/* Icons */
+.territorial-marker-icon { background-color: #ffffff; border: 2px solid #5380e9; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+.territorial-highlight { box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.9) !important; border-color: #00008B !important; border-radius: 50%; animation: pulse-white 2s infinite; z-index: 9999 !important; }
+.usable-marker-icon { background-color: #ffffff; border: 2px solid #27ae60; border-radius: 50%; box-shadow: 0 0 5px rgba(39, 174, 96, 0.5); }
+.usable-highlight { box-shadow: 0 0 15px 5px rgba(39, 174, 96, 0.8) !important; border-color: #2ecc71 !important; border-radius: 50%; animation: pulse-green 2s infinite; z-index: 9000 !important; }
+@keyframes pulse-white { 0% { box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7); } 50% { box-shadow: 0 0 25px 15px rgba(255, 255, 255, 1); } 100% { box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7); } }
+@keyframes pulse-green { 0% { box-shadow: 0 0 5px 2px rgba(39, 174, 96, 0.5); } 50% { box-shadow: 0 0 15px 8px rgba(39, 174, 96, 0.8); } 100% { box-shadow: 0 0 5px 2px rgba(39, 174, 96, 0.5); } }
+
+/* 항구 마커 아이콘 스타일 수정 (흰색 테두리 적용) */
+.port-marker-icon {
+    background-color: #555;
+    border: 2px solid #ffffff; 
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    width: 10px !important;
+    height: 10px !important;
+    margin-left: -5px !important;
+    margin-top: -5px !important;
+}
+
+/* 이용가능 클러스터 */
+.marker-cluster-usable-small { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
+.marker-cluster-usable-small div { background-color: rgba(39, 174, 96, 0.9) !important; color: white !important; }
+.marker-cluster-usable-medium { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
+.marker-cluster-usable-medium div { background-color: rgba(76, 113, 92, 0.9) !important; color: white !important; }
+.marker-cluster-usable-large { background-color: rgba(46, 204, 113, 0.2) !important; box-shadow: 0 0 0 5px rgba(46, 204, 113, 0.2); border-radius: 50%; }
+.marker-cluster-usable-large div { background-color: rgba(20, 90, 50, 0.9) !important; color: white !important; }
+
+/* 기본 클러스터 */
+.marker-cluster-small { background-color: rgba(79, 184, 254, 0) !important; box-shadow: 0 0 15px 5px rgba(101, 199, 255, 0.5); border-radius: 50%; }
+.marker-cluster-small div { background-color: rgba(88, 149, 255, 0.8) !important; color: white !important; }
+.marker-cluster-medium { background-color: rgba(84, 118, 243, 0) !important; box-shadow: 0 0 15px 5px rgba(77, 151, 255, 0.5); border-radius: 50%; }
+.marker-cluster-medium div { background-color: rgba(54, 61, 255, 0.8) !important; color: white !important; }
+.marker-cluster-large { background-color: rgba(207, 207, 208, 0) !important; box-shadow: 0 0 15px 5px rgba(207, 207, 208, 0.5); border-radius: 50%; }
+.marker-cluster-large div { background-color: rgba(32, 32, 32, 0.8) !important; color: white !important; }
+.marker-cluster div { font-family: "GMarketSans"; font-weight: 500; }
+
+.region-highlight-polygon path { stroke: #ffffff !important; stroke-width: 1px !important; stroke-linejoin: round !important; filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 15px #ffffff); }
+@media (max-width: 768px) { .search-panel { width: 100%; top: 0; left: 0; border-radius: 0; } .detail-panel { width: 100%; bottom: 0; left: 0; border-radius: 15px 15px 0 0; } .map-controls { top: auto; bottom: 20px; right: 20px; } }
